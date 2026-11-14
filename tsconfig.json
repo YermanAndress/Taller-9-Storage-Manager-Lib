@@ -12,6 +12,9 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
+    "paths": {
+      "storage-manager": ["./dist/storage-manager"]
+    },
     "module": "preserve"
   },
   "angularCompilerOptions": {
@@ -26,6 +29,12 @@
     },
     {
       "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/storage-manager/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/storage-manager/tsconfig.spec.json"
     }
   ]
 }
