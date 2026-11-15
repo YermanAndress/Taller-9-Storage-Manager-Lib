@@ -1,64 +1,80 @@
-# StorageManager
+# Storage Manager
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.0.
+Librería Angular para administrar información mediante LocalStorage y Cache
+Storage.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Instalación
 
 ```bash
-ng generate --help
+bun add storage-manager
 ```
 
-## Building
+## Importación
 
-To build the library, run:
+```typescript
+import {
+  CacheStorageService,
+  LocalStorageService,
+} from 'storage-manager';
+```
+
+## LocalStorageService
+
+```typescript
+const storage = inject(LocalStorageService);
+
+storage.set('user', { name: 'Ana', age: 25 });
+const user = storage.get<{ name: string; age: number }>('user');
+storage.update('user', { name: 'Ana', age: 26 });
+const exists = storage.has('user');
+storage.remove('user');
+storage.clear();
+```
+
+Los valores se serializan con JSON. Una clave inexistente devuelve `null` y los
+errores se reportan mediante `StorageError`.
+
+## CacheStorageService
+
+Las operaciones son asíncronas:
+
+```typescript
+const cache = inject(CacheStorageService);
+
+await cache.put(
+  'app-cache',
+  '/api/config',
+  new Response(JSON.stringify({ enabled: true })),
+);
+
+const response = await cache.match('app-cache', '/api/config');
+```
+
+Métodos disponibles:
+
+- `open(cacheName)`
+- `put(cacheName, request, response)`
+- `match(cacheName, request)`
+- `has(cacheName, request)`
+- `delete(cacheName, request)`
+- `deleteCache(cacheName)`
+- `keys()`
+
+## Construcción
+
+Desde la raíz del proyecto:
 
 ```bash
-ng build storage-manager
+bunx ng build storage-manager
 ```
 
-This command will compile your project, and the build artifacts will be placed in the `dist/` directory.
+El paquete compilado se genera en `dist/storage-manager`.
 
-### Publishing the Library
-
-Once the project is built, you can publish your library by following these steps:
-
-1. Navigate to the `dist` directory:
-
-   ```bash
-   cd dist/storage-manager
-   ```
-
-2. Run the `npm publish` command to publish your library to the npm registry:
-   ```bash
-   npm publish
-   ```
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Pruebas
 
 ```bash
-ng test
+bunx ng test storage-manager --no-watch
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Para consultar la documentación general del proyecto, revisa el README de la
+raíz del repositorio.
