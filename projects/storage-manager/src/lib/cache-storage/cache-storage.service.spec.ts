@@ -1,3 +1,4 @@
+import { TestBed } from '@angular/core/testing';
 import { CacheStorageService } from './cache-storage.service';
 
 describe('CacheStorageService', () => {
@@ -30,7 +31,8 @@ describe('CacheStorageService', () => {
     } as unknown as CacheStorage;
 
     vi.stubGlobal('caches', cacheStorage);
-    service = new CacheStorageService();
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(CacheStorageService);
   });
 
   afterEach(() => {

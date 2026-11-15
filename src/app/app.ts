@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CacheStorageService, LocalStorageService } from 'storage-manager';
+import { CacheStorageService, LocalStorageService } from '@yermanandres/storage-manager';
 
 @Component({
   imports: [FormsModule],
@@ -23,9 +23,7 @@ export class App {
   protected localKey = 'user';
   protected localValue = '{"name":"Ana","age":25}';
   protected localReadKey = 'user';
-  protected readonly localResult = signal(
-    'Aún no se ha ejecutado ninguna operación.',
-  );
+  protected readonly localResult = signal('Aún no se ha ejecutado ninguna operación.');
   protected readonly localStatus = signal('Listo para probar LocalStorage.');
   protected readonly localError = signal('');
 
@@ -54,10 +52,7 @@ export class App {
     }
 
     await this.execute(async () => {
-      const response = await this.cacheStorage.match(
-        this.cacheName,
-        this.searchUrl.trim(),
-      );
+      const response = await this.cacheStorage.match(this.cacheName, this.searchUrl.trim());
 
       if (!response) {
         this.status.set('El recurso no fue encontrado.');
@@ -77,10 +72,7 @@ export class App {
     }
 
     await this.execute(async () => {
-      const exists = await this.cacheStorage.has(
-        this.cacheName,
-        this.searchUrl.trim(),
-      );
+      const exists = await this.cacheStorage.has(this.cacheName, this.searchUrl.trim());
       this.status.set(exists ? 'El recurso existe.' : 'El recurso no existe.');
       this.result.set(exists ? 'true' : 'false');
     });
@@ -93,13 +85,8 @@ export class App {
     }
 
     await this.execute(async () => {
-      const deleted = await this.cacheStorage.delete(
-        this.cacheName,
-        this.searchUrl.trim(),
-      );
-      this.status.set(
-        deleted ? 'Recurso eliminado correctamente.' : 'El recurso no existía.',
-      );
+      const deleted = await this.cacheStorage.delete(this.cacheName, this.searchUrl.trim());
+      this.status.set(deleted ? 'Recurso eliminado correctamente.' : 'El recurso no existía.');
       this.result.set(deleted ? 'true' : 'false');
     });
   }
@@ -107,9 +94,7 @@ export class App {
   async removeCache(): Promise<void> {
     await this.execute(async () => {
       const deleted = await this.cacheStorage.deleteCache(this.cacheName);
-      this.status.set(
-        deleted ? 'Caché eliminada correctamente.' : 'La caché no existía.',
-      );
+      this.status.set(deleted ? 'Caché eliminada correctamente.' : 'La caché no existía.');
       this.result.set(deleted ? 'true' : 'false');
       await this.loadCacheNames();
     });
@@ -129,10 +114,7 @@ export class App {
     }
 
     this.executeLocal(() => {
-      this.localStorage.set(
-        this.localKey.trim(),
-        this.parseLocalValue(this.localValue),
-      );
+      this.localStorage.set(this.localKey.trim(), this.parseLocalValue(this.localValue));
       this.localStatus.set('Valor guardado correctamente.');
       this.localResult.set(`Se guardó la clave: ${this.localKey.trim()}`);
     });
@@ -149,9 +131,7 @@ export class App {
       this.localStatus.set(
         value === null ? 'La clave no existe.' : 'Valor consultado correctamente.',
       );
-      this.localResult.set(
-        value === null ? 'null' : this.formatLocalValue(value),
-      );
+      this.localResult.set(value === null ? 'null' : this.formatLocalValue(value));
     });
   }
 
@@ -162,10 +142,7 @@ export class App {
     }
 
     this.executeLocal(() => {
-      this.localStorage.update(
-        this.localKey.trim(),
-        this.parseLocalValue(this.localValue),
-      );
+      this.localStorage.update(this.localKey.trim(), this.parseLocalValue(this.localValue));
       this.localStatus.set('Valor actualizado correctamente.');
       this.localResult.set(`Se actualizó la clave: ${this.localKey.trim()}`);
     });
@@ -193,9 +170,7 @@ export class App {
     this.executeLocal(() => {
       const existed = this.localStorage.has(this.localReadKey.trim());
       this.localStorage.remove(this.localReadKey.trim());
-      this.localStatus.set(
-        existed ? 'Clave eliminada correctamente.' : 'La clave no existía.',
-      );
+      this.localStatus.set(existed ? 'Clave eliminada correctamente.' : 'La clave no existía.');
       this.localResult.set(existed ? 'true' : 'false');
     });
   }
@@ -216,9 +191,7 @@ export class App {
       await operation();
     } catch (caughtError: unknown) {
       const message =
-        caughtError instanceof Error
-          ? caughtError.message
-          : 'Ocurrió un error inesperado.';
+        caughtError instanceof Error ? caughtError.message : 'Ocurrió un error inesperado.';
       this.error.set(message);
       this.status.set('La operación no pudo completarse.');
     } finally {
@@ -233,9 +206,7 @@ export class App {
       operation();
     } catch (caughtError: unknown) {
       const message =
-        caughtError instanceof Error
-          ? caughtError.message
-          : 'Ocurrió un error inesperado.';
+        caughtError instanceof Error ? caughtError.message : 'Ocurrió un error inesperado.';
       this.localError.set(message);
       this.localStatus.set('La operación no pudo completarse.');
     }
