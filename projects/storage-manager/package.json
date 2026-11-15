@@ -1,6 +1,6 @@
 {
   "name": "@yermanandres/storage-manager",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Librería Angular para administrar LocalStorage y Cache Storage",
   "keywords": [
     "angular",

@@ -29,7 +29,7 @@ dist/storage-manager/       # Paquete compilado
 
 ```bash
 bun install
-bunx ng build storage-manager
+  bunx ng build storage-manager
 bun start
 ```
 
@@ -43,14 +43,17 @@ Storage.
 Los servicios se importan desde la API pública:
 
 ```typescript
-import { CacheStorageService, LocalStorageService } from 'storage-manager';
+import {
+  CacheStorageService,
+  LocalStorageService,
+} from '@yermanandres/storage-manager';
 ```
 
 ### LocalStorageService
 
 ```typescript
 import { Component, inject } from '@angular/core';
-import { LocalStorageService } from 'storage-manager';
+import { LocalStorageService } from '@yermanandres/storage-manager';
 
 @Component({
   selector: 'app-example',
@@ -84,7 +87,7 @@ Métodos disponibles:
 Los errores se reportan mediante `StorageError`:
 
 ```typescript
-import { StorageError } from 'storage-manager';
+import { StorageError } from '@yermanandres/storage-manager';
 
 try {
   this.storage.set('data', value);
@@ -98,7 +101,7 @@ try {
 El servicio también permite configurar un prefijo para evitar colisiones:
 
 ```typescript
-import { LOCAL_STORAGE_OPTIONS } from 'storage-manager';
+import { LOCAL_STORAGE_OPTIONS } from '@yermanandres/storage-manager';
 
 export const appConfig = {
   providers: [
@@ -115,7 +118,7 @@ export const appConfig = {
 Todas sus operaciones son asíncronas:
 
 ```typescript
-import { CacheStorageService } from 'storage-manager';
+import { CacheStorageService } from '@yermanandres/storage-manager';
 
 export class ExampleService {
   constructor(private readonly cache: CacheStorageService) {}
@@ -197,18 +200,20 @@ bunx ng build storage-manager
 
 El resultado queda en `dist/storage-manager`. Después de revisar y actualizar
 la versión de `projects/storage-manager/package.json`, puedes publicar el
-paquete:
+paquete scoped:
 
 ```bash
 cd dist/storage-manager
-bun publish
+bun publish --access public
 ```
 
 Luego puede instalarse en otro proyecto Angular con:
 
 ```bash
-bun add storage-manager
+bun add @yermanandres/storage-manager
 ```
+
+Paquete publicado: [@yermanandres/storage-manager](https://www.npmjs.com/package/@yermanandres/storage-manager)
 
 Cache Storage suele requerir HTTPS o un entorno local como `localhost`.
 

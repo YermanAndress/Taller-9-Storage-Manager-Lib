@@ -6,7 +6,7 @@ Storage.
 ## Instalación
 
 ```bash
-bun add storage-manager
+bun add @yermanandres/storage-manager
 ```
 
 ## Importación
@@ -15,7 +15,7 @@ bun add storage-manager
 import {
   CacheStorageService,
   LocalStorageService,
-} from 'storage-manager';
+} from '@yermanandres/storage-manager';
 ```
 
 ## LocalStorageService
