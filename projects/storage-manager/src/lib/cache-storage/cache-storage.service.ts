@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
 
 /**
- * Provides a typed interface for the browser Cache Storage API.
+ * Proporciona una interfaz tipada para la API Cache Storage del navegador.
  *
- * Every operation receives the cache name explicitly so consumers can work
- * with more than one cache without managing the native CacheStorage object.
+ * Cada operación recibe explícitamente el nombre de la caché para permitir
+ * trabajar con varias cachés sin administrar el objeto CacheStorage nativo.
  */
 @Injectable({ providedIn: 'root' })
 export class CacheStorageService {
   /**
-   * Opens an existing cache or creates it when it does not exist.
+   * Abre una caché existente o la crea cuando no existe.
    */
   open(cacheName: string): Promise<Cache> {
     return this.getCacheStorage().open(cacheName);
   }
 
   /**
-   * Stores a response in a cache under the given request key.
+   * Almacena una respuesta en una caché usando la solicitud indicada como clave.
    */
   async put(cacheName: string, request: RequestInfo, response: Response): Promise<void> {
     const cache = await this.open(cacheName);
@@ -24,7 +24,7 @@ export class CacheStorageService {
   }
 
   /**
-   * Returns the cached response for a request, or undefined when it is absent.
+   * Devuelve la respuesta almacenada o undefined cuando no existe.
    */
   async match(cacheName: string, request: RequestInfo): Promise<Response | undefined> {
     const cache = await this.open(cacheName);
@@ -32,14 +32,14 @@ export class CacheStorageService {
   }
 
   /**
-   * Indicates whether a request has a matching cached response.
+   * Indica si existe una respuesta almacenada para la solicitud.
    */
   async has(cacheName: string, request: RequestInfo): Promise<boolean> {
     return (await this.match(cacheName, request)) !== undefined;
   }
 
   /**
-   * Deletes a request from a cache.
+   * Elimina una solicitud de una caché.
    */
   async delete(cacheName: string, request: RequestInfo): Promise<boolean> {
     const cache = await this.open(cacheName);
@@ -47,14 +47,14 @@ export class CacheStorageService {
   }
 
   /**
-   * Deletes an entire cache and returns whether it existed.
+   * Elimina una caché completa e indica si existía.
    */
   deleteCache(cacheName: string): Promise<boolean> {
     return this.getCacheStorage().delete(cacheName);
   }
 
   /**
-   * Returns the names of all caches available to the current origin.
+   * Devuelve los nombres de todas las cachés del origen actual.
    */
   keys(): Promise<string[]> {
     return this.getCacheStorage().keys();
